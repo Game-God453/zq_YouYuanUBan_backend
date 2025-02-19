@@ -16,12 +16,11 @@ Including another URLconf
 """
 from django.http import HttpResponse
 # from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
-def index(request):
-    return HttpResponse("欢迎")
+import user
 
 urlpatterns = [
     #    path('admin/', admin.site.urls),
-    path("s",index)
+    path("user/",include("user.urls")),
 ]
