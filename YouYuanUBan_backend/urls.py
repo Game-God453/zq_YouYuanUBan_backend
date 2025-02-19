@@ -18,10 +18,14 @@ from django.http import HttpResponse
 # from django.contrib import admin
 from django.urls import path
 
+from activity.views import activity_list,add_activity
+
 def index(request):
     return HttpResponse("欢迎")
 
 urlpatterns = [
     #    path('admin/', admin.site.urls),
-    path("s",index)
+    path("s",index),
+    path('activity',activity_list),
+    path('add/activity',add_activity)
 ]
