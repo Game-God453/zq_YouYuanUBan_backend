@@ -16,16 +16,20 @@ Including another URLconf
 """
 from django.http import HttpResponse
 # from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 from activity.views import activity_list,add_activity
 
-def index(request):
-    return HttpResponse("欢迎")
+import user
 
 urlpatterns = [
     #    path('admin/', admin.site.urls),
     path("s",index),
     path('activity',activity_list),
     path('add/activity',add_activity)
+import user
+
+urlpatterns = [
+    #    path('admin/', admin.site.urls),
+    path("user/",include("user.urls")),
 ]
