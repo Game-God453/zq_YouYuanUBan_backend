@@ -43,7 +43,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -76,8 +76,12 @@ WSGI_APPLICATION = 'YouYuanUBan_backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',  #django连接mysql，还可以连oracle、sqlite3、postgresql等等
+        'NAME': 'yyub',  #数据库名字
+        'USER':'root',  #用户
+        'PASSWORD':'123456',  #密码
+        'HOST':'127.0.0.1',  #主机
+        'PORT':'3306',  #端口
     }
 }
 
