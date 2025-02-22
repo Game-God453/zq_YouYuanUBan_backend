@@ -59,22 +59,23 @@ def upload_image(request):
             print('ETag: {0}'.format(result.etag))
             print('date: {0}'.format(result.headers['date']))
 
-            # 返回上传成功的响应
+            # 返回上传成功的url
+            url = f"https://{bucket_name}.{endpoint[endpoint.rfind('/') + 1:]}/{object_name}"
             return JsonResponse({
-                'data': f"https://{bucket_name}.{endpoint[endpoint.rfind('/') + 1:]}/{object_name}",
+                'data': url,
                 'message': "文件上传成功！",
                 'status': 200
-            })
+            }),url
         except Exception as e:
             print(f"Error uploading file: {e}")
             return JsonResponse({
                 'data': None,
                 'message': "文件上传失败！",
                 'status': 400
-            })
+            }),None
     else:
         return JsonResponse({
             'data': None,
             'message': "无效请求！",
             'status': 405
-        })
+        }),None

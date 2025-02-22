@@ -36,7 +36,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'user'
+    'user',
+    'friends',
+    'chat',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -70,7 +73,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'YouYuanUBan_backend.wsgi.application'
-
+ASGI_APPLICATION = 'YouYuanUBan_backend.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases

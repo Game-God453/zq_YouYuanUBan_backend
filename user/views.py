@@ -8,13 +8,7 @@ from django_redis import get_redis_connection
 from user.models import User
 from user.tools.JWTtoken import JWTToken
 from user.tools.aliyun_fileupdate import upload_image
-from user.tools.userGet import userGet
-
-def userNotExist():
-    return JsonResponse({
-        'data': None,
-        'message': "用户不存在！",
-        'status': 400})
+from user.tools.userGet import userGet, userNotExist
 
 ##########################################################仅供测试###################################################
 import random
@@ -35,7 +29,11 @@ def user_login(request):
 
     code = request.POST.get('code')
     if not code:
-        return userNotExist()
+        return JsonResponse({
+            'data':None,
+            'message':'未获得code！',
+            'status': 400
+        })
 
     # openid,session_key = Wxlogin.get(code)  #有真实小程序信息方可使用
     openid = generate_random_string()
@@ -74,9 +72,6 @@ def user_login(request):
 @require_http_methods(['GET'])
 def user_info(request):
     user = userGet(request)
-    if not user:
-        return userNotExist()
-
     data = {
         "avatar": user.avatar,
         "nickname": user.username,
@@ -92,11 +87,7 @@ def user_info(request):
 @require_http_methods(['PUT'])
 def user_update(request):
     user = userGet(request)
-    if not user:
-        return userNotExist()
-
     try:
-
         # 解析 request.body 中的 JSON 数据
         data = json.loads(request.body)
         user.username = data['username']
@@ -117,10 +108,11 @@ def user_update(request):
 @require_http_methods(['POST'])
 def user_fileUpload(request):
     user = userGet(request)
-    if not user:
-        return userNotExist()
-
-    return upload_image(request)
+    json_response, url = upload_image(request)
+    if url:
+        user.avatar = url
+        user.save()
+    return json_response
 
 
 

@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.urls import reverse
 from django_redis import get_redis_connection
 
+from user.models import User
 from user.tools.JWTtoken import JWTToken
 
 
@@ -27,10 +28,20 @@ class LoginRequiredMiddleware:
                 "message": "未登录，请先登录！",
                 "status": 401  # 401 表示未授权
             })
-        redis_conn = get_redis_connection("default")
-        stored_token = redis_conn.get(f"token:{payload['openid']}").decode('utf-8')
 
-        if stored_token != token:
+        openid = payload.get('openid')
+        user = User.objects.filter(openid=openid).exists()
+        if not user:
+            return JsonResponse({
+                "data": None,
+                "message": "当前用户未注册或已注销",
+                "status": 404
+            })
+
+        redis_conn = get_redis_connection("default")
+        stored_token = redis_conn.get(f"token:{payload['openid']}")
+
+        if not stored_token or stored_token.decode('utf-8')!= token:
             return JsonResponse({
                 "data": None,
                 "message": "当前登录已失效，请重新登录",
