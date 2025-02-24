@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # 'daphne',
+    # 'channels',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -38,8 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'user',
     'friends',
-    'chat',
-    'channels',
+    'chat_longpolling',
 ]
 
 MIDDLEWARE = [
@@ -73,7 +74,24 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'YouYuanUBan_backend.wsgi.application'
-ASGI_APPLICATION = 'YouYuanUBan_backend.asgi.application'
+# ASGI_APPLICATION = 'YouYuanUBan_backend.asgi.application'
+
+#不用redis,直接用内存通道层
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels.layers.InMemoryChannelLayer',
+#     },
+# }
+
+# 配置 Channels Layer 使用 Redis，需要注意redis版本不能太低
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [("redis://127.0.0.1:6379/1")],  # Redis 服务器地址和端口
+#         },
+#     },
+# }
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -102,8 +120,8 @@ CACHES = {
     }
 }
 
-TOKEN_TTL = 60 * 60  #token有效时间1小时
-CACHE_TTL = 60 * 60  # 缓存时间1小时
+TOKEN_TTL = 60 * 60 * 6  #token有效时间1小时
+CACHE_TTL = 60 * 60 * 6 # 缓存时间1小时
 
 
 # Password validation

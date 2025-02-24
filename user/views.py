@@ -78,6 +78,7 @@ def user_info(request):
         "userID": user.id,
         "birthday": user.birthday,
     }
+
     return JsonResponse({
         'data': data,
         'message': '用户信息获取成功',

@@ -3,6 +3,7 @@ from django.http import JsonResponse, Http404
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 
+from chat_longpolling.models import ChatConnection
 from user.tools.userGet import userGet, userNotExist
 from .models import FriendRequest, Friendship
 from django.conf import settings
@@ -90,6 +91,10 @@ def accept_friend_request(request, request_id):
         #设置好友申请单的状态为已同意
         friend_request.accepted = True
         friend_request.save()
+
+        #建立好友聊天频道
+        ChatConnection.objects.create(user1=friend_request.from_user, user2=friend_request.to_user)
+
         return JsonResponse({
             'data': None,
             'message': '好友请求接受成功',

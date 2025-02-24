@@ -19,13 +19,13 @@ class LoginRequiredMiddleware:
 
         # 检查用户是否已经登录
         token = request.headers.get('Authorization')
-        payload = JWTToken.decode(token=token)
+        payload, error_message = JWTToken.decode(token=token)
 
         if not payload:
             # 返回 JSON 格式的提示信息
             return JsonResponse({
                 "data": None,
-                "message": "未登录，请先登录！",
+                "message": error_message,
                 "status": 401  # 401 表示未授权
             })
 
@@ -44,7 +44,7 @@ class LoginRequiredMiddleware:
         if not stored_token or stored_token.decode('utf-8')!= token:
             return JsonResponse({
                 "data": None,
-                "message": "当前登录已失效，请重新登录",
+                "message": "超过认证时间，请重新登录",
                 "status": 401  # 401 表示未授权
             })
 
