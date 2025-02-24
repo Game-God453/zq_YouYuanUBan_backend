@@ -27,5 +27,6 @@ urlpatterns = [
     path("user/",include("user.urls")),
     path("friend/",include("friends.urls")),
     path("chat/",include("chat_longpolling.urls")),
+    path('activity/',include("activity.urls"))
 
 ]

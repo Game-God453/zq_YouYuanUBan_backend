@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'user',
     'friends',
     'chat_longpolling',
+    'activity'
 ]
 
 MIDDLEWARE = [
