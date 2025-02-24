@@ -60,6 +60,9 @@ def user_login(request):
 
 
         token = JWTToken(openid,session_key).encode()
+        # print(code)
+        # print(openid,session_key)
+        # print(token)
         # 获取缓存时间
         cache_ttl = getattr(settings, "CACHE_TTL", 60)  # 默认值为 1 分钟
         # 设置缓存
