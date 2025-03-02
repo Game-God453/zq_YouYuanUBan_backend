@@ -10,10 +10,10 @@ services:
     restart: always
     container_name: "ballmate-mysql"
     environment:
-      - MYSQL_ROOT_PASSWORD="zq123456"    #mqsql服务器root密码
-      - MYSQL_DATABASE="youyuanuban"   #数据库名
-      - MYSQL_USER="gameGod"    #用户
-      - MYSQL_PASSWORD="zq123456"  #数据库密码
+      - MYSQL_ROOT_PASSWORD=zq123456
+      - MYSQL_DATABASE=youyuanuban
+      - MYSQL_USER=gameGod
+      - MYSQL_PASSWORD=zq123456
     networks:
       - app-net
 
