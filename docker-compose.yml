@@ -6,7 +6,7 @@ services:
     expose:
       - "3306"
     restart: always
-    container_name: "ballmate-mysql"
+#    container_name: "ballmate-mysql"
     environment:
       MYSQL_ROOT_PASSWORD: ZQ12345678
       MYSQL_DATABASE: ballmate
@@ -20,7 +20,7 @@ services:
     expose:
       - "6379"
     restart: always
-    container_name: "ballmate-redis"
+#    container_name: "ballmate-redis"
     networks:
       - app-net
 

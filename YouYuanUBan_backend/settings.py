@@ -108,7 +108,7 @@ DATABASES = {
         'NAME': 'ballmate',
         'USER': 'gameGod',
         'PASSWORD': 'ZQ12345678',
-        'HOST': 'ballmate-mysql',
+        'HOST': 'mysql',
         'PORT': '3306',
     }
 }
@@ -117,7 +117,7 @@ AUTH_USER_MODEL = 'user.User'
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://ballmate-redis:6379/0",  # Redis 服务地址
+        "LOCATION": "redis://redis:6379/0",  # Redis 服务地址
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             # "PASSWORD": 123456,  # 如果设置了 Redis 密码
