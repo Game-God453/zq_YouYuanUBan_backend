@@ -54,10 +54,10 @@ services:
       traefik.http.services.ballmate.loadbalancer.server.port: 8081  # 将 YOUR_PORT 更改为相应端口
 
     # Add Network Bridge info ######################
-  networks:
-    app-net: { }
-    traefik:
-      external: true
+networks:
+  app-net: { }
+  traefik:
+    external: true
 
 
 
