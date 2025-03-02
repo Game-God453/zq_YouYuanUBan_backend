@@ -106,7 +106,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'youyuanuban',
-        'USER': 'root',
+        'USER': 'gameGod',
         'PASSWORD': 'zq123456',
         'HOST': 'localhost',
         'PORT': '3306',
