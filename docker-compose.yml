@@ -3,17 +3,15 @@ version: '3.8'
 services:
   mysql:
     image: mysql:8.0.24
-    volumes:
-      - ./mysql:/var/lib/mysql
     expose:
       - "3306"
     restart: always
     container_name: "ballmate-mysql"
     environment:
-      - MYSQL_ROOT_PASSWORD=zq123456
-      - MYSQL_DATABASE=youyuanuban
-      - MYSQL_USER=gameGod
-      - MYSQL_PASSWORD=zq123456
+      MYSQL_ROOT_PASSWORD: ZQ12345678
+      MYSQL_DATABASE: ballmate
+      MYSQL_USER: gameGod
+      MYSQL_PASSWORD: ZQ12345678
     networks:
       - app-net
 

@@ -105,10 +105,10 @@ WSGI_APPLICATION = 'YouYuanUBan_backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'youyuanuban',
+        'NAME': 'ballmate',
         'USER': 'gameGod',
         'PASSWORD': 'zq123456',
-        'HOST': 'localhost',
+        'HOST': 'ballmate-mysql',
         'PORT': '3306',
     }
 }
@@ -117,7 +117,7 @@ AUTH_USER_MODEL = 'user.User'
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://localhost:6379/0",  # Redis 服务地址
+        "LOCATION": "redis://ballmate-redis:6379/0",  # Redis 服务地址
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             # "PASSWORD": 123456,  # 如果设置了 Redis 密码
