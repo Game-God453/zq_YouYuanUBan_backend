@@ -7,6 +7,9 @@ WORKDIR /etc/uwsgi/django
 RUN python3 -m pip install uwsgi uwsgi-tools -i https://pypi.tuna.tsinghua.edu.cn/simple/
 ADD requirements.txt /etc/uwsgi/django/requirements.txt
 RUN python3 -m pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple/
+
+CMD uwsgi --ini /etc/uwsgi/django/uwsgi.ini
+
 #ADD uwsgi.ini uwsgi.ini
 #ADD . /etc/uwsgi/django
 #EXPOSE 8086
