@@ -107,7 +107,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ballmate',
         'USER': 'gameGod',
-        'PASSWORD': 'zq123456',
+        'PASSWORD': 'ZQ12345678',
         'HOST': 'ballmate-mysql',
         'PORT': '3306',
     }

@@ -28,7 +28,7 @@ class JWTToken:
             # algorithms 参数必须与生成 Token 时使用的算法一致
             decoded_payload = jwt.decode(token, cls._secretKey, algorithms=["HS256"],verify_expiration=True)
 
-            print(f"登录发放的token过期时间：{decoded_payload["exp"]}\n现在的时间：{datetime.datetime.now()}")
+            # print(f"登录发放的token过期时间：{decoded_payload["exp"]}\n现在的时间：{datetime.datetime.now()}")
 
             return decoded_payload, "登录验证成功"
         except ExpiredSignatureError:
