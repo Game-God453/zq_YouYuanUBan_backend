@@ -25,7 +25,12 @@ SECRET_KEY = 'django-insecure-%=xsn7!+bimxe2h78x12_t2$o7n#hj3!j3j#)$+hd48x4_0rr_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '47.99.93.160',
+    'api.ballmate.temp.ziqiang.net.cn'
+
+]
 
 
 # Application definition
@@ -102,8 +107,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'youyuanuban',
         'USER': 'root',
-        'PASSWORD': 'zq123456',
-        'HOST': '127.0.0.1',
+        'PASSWORD': 'Fytyg20051216',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
 }
@@ -112,7 +117,7 @@ AUTH_USER_MODEL = 'user.User'
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/0",  # Redis 服务地址
+        "LOCATION": "redis://localhost:6379/0",  # Redis 服务地址
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             # "PASSWORD": 123456,  # 如果设置了 Redis 密码
