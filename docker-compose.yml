@@ -14,6 +14,8 @@ services:
       MYSQL_PASSWORD: ZQ12345678
     networks:
       - app-net
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
   redis:
     image: registry.cn-hangzhou.aliyuncs.com/ziqiang_studio/redis:latest
