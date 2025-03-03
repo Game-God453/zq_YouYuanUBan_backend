@@ -17,6 +17,8 @@ services:
     command: --bind-address=0.0.0.0  # 设置 bind-address
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./data/mysql:/var/lib/mysql
+
 
   redis:
     image: registry.cn-hangzhou.aliyuncs.com/ziqiang_studio/redis:latest
