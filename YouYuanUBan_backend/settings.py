@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'user',
     'friends',
     'chat_longpolling',
-    'activity'
+    'activity',
+    'dynamic'
 ]
 
 MIDDLEWARE = [
@@ -100,9 +101,9 @@ WSGI_APPLICATION = 'YouYuanUBan_backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'youyuanuban',
+        'NAME': 'yyub',
         'USER': 'root',
-        'PASSWORD': 'Fytyg20051216',
+        'PASSWORD': '123456',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
@@ -121,8 +122,8 @@ CACHES = {
     }
 }
 
-TOKEN_TTL = 60 * 60 * 6  #token有效时间1小时
-CACHE_TTL = 60 * 60 * 6 # 缓存时间1小时
+TOKEN_TTL = 60 * 60 * 6 *24 * 30  #token有效时间1小时
+CACHE_TTL = 60 * 60 * 6 *24 *30 # 缓存时间1小时
 
 
 # Password validation
