@@ -2,6 +2,7 @@
 services:
   mysql:
     image: mysql:8.0.24
+    user: "1015:1015"  # 使用当前用户UID:GID（通过id -u ballmate和id -g ballmate获取实际值）
     expose:
       - "3306"
     restart: always
@@ -13,14 +14,17 @@ services:
       MYSQL_PASSWORD: ZQ12345678
     networks:
       - app-net
-    command: --bind-address=0.0.0.0  # 设置 bind-address
+    command:
+      - --bind-address=0.0.0.0
+      - --pid-file=/var/run/mysqld/mysqld.pid  # 修复PID文件路径权限
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-      - ./data/mysql:/var/lib/mysql
+      - ./data/mysql:/var/lib/mysql:z
 
 
   redis:
     image: registry.cn-hangzhou.aliyuncs.com/ziqiang_studio/redis:latest
+    user: "1015:1015"
     expose:
       - "6379"
     restart: always
@@ -30,7 +34,12 @@ services:
 
 
   web:
-    build: .
+    build:
+      context: .
+      args:
+        USER_ID: 1015  # 传入当前用户UID到Dockerfile
+        GROUP_ID: 1015
+    user: "1015:1015"  # 与宿主机用户保持一致
     ports:
        - "8081:8081"   #主机端口和容器端口映射，要和下面的uwsgi.ini文件中的socket保持一致
     command: ./start.sh
