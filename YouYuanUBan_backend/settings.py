@@ -25,12 +25,8 @@ SECRET_KEY = 'django-insecure-%=xsn7!+bimxe2h78x12_t2$o7n#hj3!j3j#)$+hd48x4_0rr_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '47.99.93.160',
-    'api.ballmate.temp.ziqiang.net.cn'
+ALLOWED_HOSTS = ['*']
 
-]
 
 
 # Application definition
