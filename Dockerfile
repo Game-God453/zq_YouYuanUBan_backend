@@ -16,7 +16,6 @@ RUN mkdir -p /etc/uwsgi/django && \
 
 # 切换到非root用户
 USER appuser
-RUN chmod +x ./start.sh
 
 RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
 RUN apt-get update && apt-get install -y vim
