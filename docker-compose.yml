@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0.24
+    volumes:
+      - ./mysql:/var/lib/mysql
+    expose:
+      - "3306"
+    restart: always
+    container_name: "ballmate-mysql"
+    environment:
+      - MYSQL_ROOT_PASSWORD="zq123456"    #mqsql服务器root密码
+      - MYSQL_DATABASE="youyuanuban"   #数据库名
+      - MYSQL_USER="gameGod"    #用户
+      - MYSQL_PASSWORD="zq123456"  #数据库密码
+    networks:
+      - app-net
+
+  redis:
+    image: registry.cn-hangzhou.aliyuncs.com/ziqiang_studio/redis:latest
+    expose:
+      - "6379"
+    restart: always
+    container_name: "ballmate-redis"
+    networks:
+      - app-net
+
+
+  web:
+    build: .
+    ports:
+       - "8081:8081"   #主机端口和容器端口映射，要和下面的uwsgi.ini文件中的socket保持一致
+    command: ./start.sh
+    working_dir: /etc/uwsgi/django
+    volumes:
+      - .:/etc/uwsgi/django
+    expose:
+      - "8081"
+    container_name: "ballmate-django"
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - app-net
+      - traefik
+
+    labels:
+      traefik.enable: true
+      # 下面三行的xxx都要修改为自己项目的名字，也就是
+      traefik.http.routers.ballmate.rule: Host(`api.ballmate.temp.ziqiang.net.cn`)
+
+      traefik.http.routers.ballmate.entrypoints: websecure
+      traefik.http.services.ballmate.loadbalancer.server.port: 8081  # 将 YOUR_PORT 更改为相应端口
+
+    # Add Network Bridge info ######################
+networks:
+  app-net: { }
+  traefik:
+    external: true
+
+
+
+

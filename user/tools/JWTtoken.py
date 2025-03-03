@@ -11,7 +11,7 @@ class JWTToken:
     def __init__(self,openid,session_key):
         exp = datetime.datetime.now() + datetime.timedelta(seconds=getattr(settings, "TOKEN_TTL", 60 )) #默认1分钟
 
-        print(f"登录发放的token过期时间：{exp}\n现在的时间：{datetime.datetime.now()}")
+        # print(f"登录发放的token过期时间：{exp}\n现在的时间：{datetime.datetime.now()}")
 
         self.payload = {'openid': openid, "session_key": session_key, "login_time": datetime.datetime.now().isoformat(),
                         'exp': exp.timestamp()}
