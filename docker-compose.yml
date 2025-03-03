@@ -40,8 +40,8 @@ services:
       - "8081"
     container_name: "ballmate-django"
     depends_on:
-      - ballmate-mysql
-      - ballmate-redis
+      - mysql
+      - redis
     networks:
       - app-net
       - traefik
