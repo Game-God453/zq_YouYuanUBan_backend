@@ -1,6 +1,7 @@
 *.pyc
 *.swp
 *.*.swp
+chat_websocket/
 bak/
 bak_bak/
 logs/
