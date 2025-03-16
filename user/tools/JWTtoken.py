@@ -1,12 +1,15 @@
 import datetime
+import os
 
 import jwt
+from dotenv import load_dotenv
 from jwt import ExpiredSignatureError
 from django.conf import settings
 
+load_dotenv()  # 默认会加载根目录下的.env文件
 
 class JWTToken:
-    _secretKey = "your_secret_key"
+    _secretKey = os.getenv('JWT_SECRET_KEY')
 
     def __init__(self,openid,session_key):
         exp = datetime.datetime.now() + datetime.timedelta(seconds=getattr(settings, "TOKEN_TTL", 60 )) #默认1分钟

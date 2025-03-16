@@ -3,21 +3,27 @@ import os
 import uuid
 
 import oss2
+from oss2 import Bucket
 from oss2.credentials import EnvironmentVariableCredentialsProvider
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from dotenv import load_dotenv
+
+load_dotenv()  # 默认会加载根目录下的.env文件
 
 # 从环境变量中获取访问凭证。运行本代码示例之前，请确保已设置环境变量OSS_ACCESS_KEY_ID和OSS_ACCESS_KEY_SECRET。
+
 auth = oss2.ProviderAuthV4(EnvironmentVariableCredentialsProvider())
 
+
 # 填写Bucket所在地域对应的Endpoint。以华东1（杭州）为例，Endpoint填写为 https://oss-cn-hangzhou.aliyuncs.com。
-endpoint = "https://oss-cn-beijing.aliyuncs.com"
+endpoint = os.getenv("ENDPOINT")
 
 # 填写Endpoint对应的Region信息，例如cn-hangzhou。注意，v4签名下，必须填写该参数
-region = "cn-beijing"
+region = os.getenv("REGION")
 
 # yourBucketName填写存储空间名称。
-bucket_name = "gx-big-event"  # 替换为你的Bucket名称
+bucket_name = os.getenv("BUCKET_NAME")  # 替换为你的Bucket名称
 bucket = oss2.Bucket(auth, endpoint, bucket_name, region=region)
 
 def generate_unique_filename(original_filename):
