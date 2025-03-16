@@ -7,6 +7,7 @@ import json
 from django.core import serializers
 from datetime import datetime
 from user.tools.userGet import userGet
+from user.tools.aliyun_fileupdate import upload_image
 
 
 # Create your views here.
@@ -17,14 +18,16 @@ def activity_list(request):
     data=[]
     for act in raw:
         a=act['fields']
-        a['actID']=act['pk']
+        id=act['pk']
+        a['actID']=id
+        a['images']=json.loads(a['images'])
         data.append(a)
-    # a=Activity.objects.all().first()
-    # author=a.author
-    # # print(author.openid)
-    # # print(author.activity_author.first().title)
-    # for obj in author.activity_author.all():
-    #     print(obj.title)
+    a=Activity.objects.all().first()
+    author=a.author
+    # print(author.openid)
+    print(author.activity_author.first().title)
+    for obj in author.activity_author.all():
+        print(obj.title)
     # print(data)
     return JsonResponse({
         'data':data,
@@ -45,6 +48,7 @@ def add_activity(request):
     user=userGet(request)
     data['author']=user
     
+    data['images']=json.dumps(data.get('images'))
     
     Activity.objects.create(**data)
     return JsonResponse({
@@ -74,6 +78,17 @@ def sign_activity(request):
         'status':200,
     })
     
+def unsign_activity(request):
+    data=request.POST
+    id=data['actID']
+    act=Activity.objects.get(actID=id)
+    user=userGet(request)
+    act.participants.remove(user)
+    return JsonResponse({
+        'message':'取消成功',
+        'status':200
+    })
+    
 def show_user_activities(request):
     user=userGet(request)
     raw=user.activity_participants.all()
@@ -82,10 +97,17 @@ def show_user_activities(request):
     data=[]
     for act in raw:
         a=act['fields']
-        a['actID']=act['pk']
+        id=act['pk']
+        a['actID']=id
+        a['images']=json.loads(a['images'])
         data.append(a)
     return JsonResponse({
         'data':data,
         'message':'查询成功',
         'status':200
     })
+    
+def fileUpload(request):
+    user = userGet(request)
+    json_response, url = upload_image(request)
+    return json_response

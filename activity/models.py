@@ -16,4 +16,5 @@ class Activity(models.Model):
     tag=models.CharField(max_length=32)
     description=models.CharField(max_length=64)
     author=models.ForeignKey(User,on_delete=models.CASCADE,related_name='activity_author',null=True,default=None)
+    images=models.TextField()
     
