@@ -3,19 +3,19 @@ FROM python:3.11-buster
 #ENV PYTHONUNBUFFERED=1
 
 # 接收构建参数
-ARG USER_ID
-ARG GROUP_ID
-
-# 创建匹配宿主机用户的用户
-RUN groupadd -g ${GROUP_ID} appuser && \
-    useradd -u ${USER_ID} -g appuser -s /bin/sh appuser
-
-# 设置工作目录并修正权限
-RUN mkdir -p /etc/uwsgi/django && \
-    chown -R ${USER_ID}:${GROUP_ID} /etc/uwsgi
-
-# 切换到非root用户
-USER appuser
+#ARG USER_ID
+#ARG GROUP_ID
+#
+## 创建匹配宿主机用户的用户
+#RUN groupadd -g ${GROUP_ID} appuser && \
+#    useradd -u ${USER_ID} -g appuser -s /bin/sh appuser
+#
+## 设置工作目录并修正权限
+#RUN mkdir -p /etc/uwsgi/django && \
+#    chown -R ${USER_ID}:${GROUP_ID} /etc/uwsgi
+#
+## 切换到非root用户
+#USER appuser
 
 RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
 RUN apt-get update && apt-get install -y vim
