@@ -2,8 +2,8 @@ import requests
 
 class Wxlogin:
 
-    _appid = "wx1fe000cec0d68a4e"
-    _secret = "7eb9da5267bf3f5f9b9f0da8f34d5c40"
+    _appid = ""
+    _secret = ""
     _grant_type = "authorization_code"
 
     def get(self,code):
