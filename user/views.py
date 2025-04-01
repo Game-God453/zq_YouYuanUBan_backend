@@ -52,7 +52,7 @@ def user_login(request):
 
         if e_in:
             return JsonResponse({
-                '微信api调用问题': e_in,
+                f"微信api调用问题: {str(e_in)}"
             })
 
         if openid and session_key:
@@ -84,7 +84,7 @@ def user_login(request):
     except Exception as e_my:
         return JsonResponse({
             "data": None,
-            "message": "服务端登录存在如下问题问题："+str(e_my),
+            "message": f"服务端登录存在如下问题：+{str(e_my)}",
             "status": 500
         })
 
@@ -111,8 +111,8 @@ def user_update(request):
     try:
         # 解析 request.body 中的 JSON 数据
         data = json.loads(request.body)
-        user.username = data['username']
-        user.birthday = data['birthday']
+        user.username = data.get('nickname')
+        user.birthday = data.get('birthday')
         user.save()
         return JsonResponse({
             'data': None,

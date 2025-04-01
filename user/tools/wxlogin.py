@@ -13,8 +13,10 @@ class Wxlogin:
         try:
             response = requests.get(url)
             data = response.json()
-            errcode=data['errcode']
-            errmsg=data['errmsg']
+            if isinstance(data, tuple):  # 检查data是否为元组
+                return None, None,None,"微信api返回了一个元组",data
+            errcode = data.get('errcode')
+            errmsg = data.get('errmsg')
             if "session_key" in data and "openid" in data:
                 session_id = data["session_key"]
                 openid = data["openid"]
