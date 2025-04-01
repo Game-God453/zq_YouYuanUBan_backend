@@ -148,7 +148,8 @@ def get_request_list(request):
     user = userGet(request)
     request_list = []
     for friendrequest in FriendRequest.objects.filter(to_user=user):
-        request_list.append({'userId': friendrequest.from_user.id, 'username': friendrequest.from_user.username, 'status': friendrequest.accepted})
+        request_list.append({'userId': friendrequest.from_user.id, 'username': friendrequest.from_user.username,
+                             'status': friendrequest.accepted, 'useravatar': friendrequest.from_user.avatar})
     return JsonResponse({
         'data': request_list,
         'message': '获取好友请求列表成功',
@@ -160,7 +161,9 @@ def get_friend_list(request):
     user = userGet(request)
     friends = []
     for friendship in Friendship.objects.filter(user1=user):
-        friends.append({'userId': friendship.user2.id, 'username': friendship.user2.username})
+        friends.append({'userId': friendship.user2.id, 'username': friendship.user2.username,
+                        'useravatar': friendship.user2.avatar})
     for friendship in Friendship.objects.filter(user2=user):
-        friends.append({'userId': friendship.user1.id, 'username': friendship.user1.username})
+        friends.append({'userId': friendship.user1.id, 'username': friendship.user1.username,
+                        'useravatar': friendship.user1.avatar})
     return JsonResponse({'friends': friends})

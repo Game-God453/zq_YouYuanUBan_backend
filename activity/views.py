@@ -12,28 +12,35 @@ from user.tools.aliyun_fileupdate import upload_image
 
 # Create your views here.
 def activity_list(request):
-    raw=Activity.objects.all()
-    raw=serializers.serialize('json',raw)
-    raw=json.loads(raw)
-    data=[]
+    raw = Activity.objects.all()
+    raw = serializers.serialize('json', raw)
+    raw = json.loads(raw)
+    data = []
     for act in raw:
-        a=act['fields']
-        id=act['pk']
-        a['actID']=id
-        a['images']=json.loads(a['images'])
+        a = act['fields']
+        id = act['pk']
+        a['actID'] = id
+        a['images'] = json.loads(a['images'])
         data.append(a)
-    a=Activity.objects.all().first()
-    author=a.author
-    # print(author.openid)
-    print(author.activity_author.first().title)
-    for obj in author.activity_author.all():
-        print(obj.title)
+    # a = Activity.objects.all().first()
+    # if a is None:
+    #     return JsonResponse({
+    #         'data': None,
+    #         'message': '查询成功，暂无活动数据',
+    #         'status': 200
+    #     })
+    # author = a.author
+    # # print(author.openid)
+    # print(author.activity_author.first().title)
+    # for obj in author.activity_author.all():
+    #     print(obj.title)
     # print(data)
     return JsonResponse({
-        'data':data,
-        'message':'查询成功',
-        'status':200
+        'data': data,
+        'message': '查询成功',
+        'status': 200
     })
+
 
 # 
 def add_activity(request):

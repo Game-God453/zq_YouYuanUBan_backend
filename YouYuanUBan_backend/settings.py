@@ -117,10 +117,10 @@ AUTH_USER_MODEL = 'user.User'
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": f"redis://{os.getenv('CACHE_HOST')}:6379/0",  # Redis 服务地址
+        "LOCATION": f"redis://{os.getenv('CACHE_HOST')}:6379",  # Redis 服务地址
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            # "PASSWORD": 123456,  # 如果设置了 Redis 密码
+            # "PASSWORD": os.getenv('CACHE_PASSWORD'),  # 如果设置了 Redis 密码
             "IGNORE_EXCEPTIONS": True,
         }
     }

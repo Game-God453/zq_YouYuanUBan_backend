@@ -14,6 +14,9 @@ from user.tools.userGet import userGet, userNotExist
 import random
 import string
 
+from user.tools.wxlogin import Wxlogin
+
+
 def generate_random_string(length=6):
     # 定义字符池，包含大小写字母和数字
     characters = string.ascii_letters + string.digits
@@ -26,48 +29,65 @@ def generate_random_string(length=6):
 
 @require_http_methods(['POST'])
 def user_login(request):
+    try:
+        code = request.POST.get('code')
+        if not code:
+            return JsonResponse({
+                'data': None,
+                'message': '未获得code！',
+                'status': 400
+            })
 
-    code = request.POST.get('code')
-    if not code:
+        wxlog = Wxlogin()
+        openid, session_key, e_in, errcode, errmsg = wxlog.get(code)  # 有真实小程序信息方可使用
+        # openid = generate_random_string()
+        # openid = "xxxxxx"
+        # session_key = generate_random_string(12)
+        if errcode:
+            return JsonResponse({
+                'except': None,
+                'errcode': errcode,
+                'errmsg': errmsg
+            })
+
+        if e_in:
+            return JsonResponse({
+                '微信api调用问题': e_in,
+            })
+
+        if openid and session_key:
+
+            user, created = User.objects.get_or_create(openid=openid)
+            # 连接redis
+            redis_conn = get_redis_connection("default")
+
+            # 如果当前用户已处于登录状态，则删除之前的token，重新登录
+            stored_token = redis_conn.get(f"token:{openid}")
+            if stored_token:
+                # 记录上一次登录的时间
+                payload = JWTToken.decode(token=stored_token)
+                user.last_login = payload.get("login_time")
+                user.save()
+                # 删除先前的token
+                redis_conn.delete(f"token:{openid}")
+
+            token = JWTToken(openid, session_key).encode()
+            # 获取缓存时间
+            cache_ttl = getattr(settings, "CACHE_TTL", 60)  # 默认值为 1 分钟
+            # 设置缓存
+            redis_conn.set(f"token:{openid}", token, ex=cache_ttl)
+            return JsonResponse({
+                'data': token,
+                'message': '登陆成功！',
+                'status': 200
+            })
+    except Exception as e_my:
         return JsonResponse({
-            'data':None,
-            'message':'未获得code！',
-            'status': 400
+            "data": None,
+            "message": "服务端登录存在如下问题问题："+str(e_my),
+            "status": 500
         })
 
-    # openid,session_key = Wxlogin.get(code)  #有真实小程序信息方可使用
-    openid = generate_random_string()
-    # openid = "xxxxxx"
-    session_key = generate_random_string(12)
-
-    if openid and session_key:
-
-        user, created = User.objects.get_or_create(openid=openid)
-        #连接redis
-        redis_conn = get_redis_connection("default")
-
-        #如果当前用户已处于登录状态，则删除之前的token，重新登录
-        stored_token = redis_conn.get(f"token:{openid}")
-        if stored_token:
-            #记录上一次登录的时间
-            payload = JWTToken.decode(token=stored_token)
-            user.last_login = payload.get("login_time")
-            user.save()
-            #删除先前的token
-            redis_conn.delete(f"token:{openid}")
-
-
-        token = JWTToken(openid,session_key).encode()
-        # 获取缓存时间
-        cache_ttl = getattr(settings, "CACHE_TTL", 60)  # 默认值为 1 分钟
-        # 设置缓存
-        redis_conn.set(f"token:{openid}", token, ex=cache_ttl)
-
-        return JsonResponse({
-            'data':token,
-            'message':'登陆成功！',
-            'status': 200
-        })
 
 @require_http_methods(['GET'])
 def user_info(request):

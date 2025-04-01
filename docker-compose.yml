@@ -1,10 +1,11 @@
-
 services:
   mysql:
     image: mysql:8.0.24
 #    user: "1015:1015"  # 使用当前用户UID:GID（通过id -u ballmate和id -g ballmate获取实际值）
     expose:
       - "3306"
+    ports:
+      - "3306:3306"
     restart: always
     container_name: "ballmate-mysql"
     environment:
@@ -23,14 +24,35 @@ services:
 
 
   redis:
-    image: registry.cn-hangzhou.aliyuncs.com/ziqiang_studio/redis:latest
-#    user: "1015:1015"
+    image: redis:latest
+    container_name: "ballmate-redis"
     expose:
       - "6379"
-    restart: always
-    container_name: "ballmate-redis"
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis_data:/data
+      - ./redis.conf:/etc/redis/redis.conf
+    command: redis-server /etc/redis/redis.conf
+    environment:
+      - REDIS_PASSWORD=ZQ12345678
+    restart: always  # 设置重启策略为 always
     networks:
       - app-net
+
+#  redis:
+#    image: registry.cn-hangzhou.aliyuncs.com/ziqiang_studio/redis:latest
+##    user: "1015:1015"
+#    expose:
+#      - "6379"
+#    ports:
+#      - "6379:6379"
+#    restart: always
+#    volumes:
+#      - ./data/redis:/data
+#    container_name: "ballmate-redis"
+#    networks:
+#      - app-net
 
 
   web:
@@ -70,7 +92,3 @@ networks:
     driver: bridge
   traefik:
     external: true
-
-
-
-
